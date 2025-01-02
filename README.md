@@ -1,5 +1,3 @@
-# You might need to install VirtualBox first (sometimes NAT networking doesn't work in Virt-Manager, this should be your fallback fix. Leave this after)
-- sudo pacman -S virtualbox
 
 # GRUB configuration
 - sudo nano /etc/default/grub: <br>
