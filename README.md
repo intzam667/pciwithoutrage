@@ -102,12 +102,13 @@ sudo cfdisk /dev/nvme0n1
 
 # Virt Manager Configuration
 1. **Create a New VM**
-2. **Select UEFI Firmware**
-3. **Add GTX PCI Devices**:
+1.1 **In the storage ".qcow" section, use custom storage path as /dev/nvme0n1pX or /dev/sdX**
+3. **Select UEFI Firmware**
+4. **Add GTX PCI Devices**:
    - Video Controller
    - Audio Controller
-4. **Use Bridged Network** (NAT is not recommended).
-5. **Enable TPM for Windows 11**:
+5. **Use Bridged Network** (NAT is not recommended).
+6. **Enable TPM for Windows 11**:
    - Use Emulated TIS TPM 2.0 Module.
    - If you encounter an error:
      ```bash
