@@ -1,3 +1,7 @@
+A detailed guide for setting up PCI passthrough virtualization, focusing on isolating GPUs for virtual machines. It includes steps for configuring GRUB and VFIO, installing required virtualization packages, creating NVMe partitions, and setting up virtual machines in Virt-Manager. Additionally, bridge networking and features like Looking Glass for better VM performance.
+
+
+
 ## Table of Contents
 - 0
 - [GRUB Configuration](#grub-configuration)
