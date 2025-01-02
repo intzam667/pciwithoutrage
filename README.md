@@ -1,3 +1,29 @@
+## Table of Contents
+- 0
+- [GRUB Configuration](#grub-configuration)
+- [VFIO Configuration](#vfio-configuration)
+- 1
+- [Install Required Packages](#install-required-packages)
+- [Create NVME Partition](#create-nvme-partition)
+- [Virt-Manager Configuration](#virt-manager-configuration)
+- [Bridge Network Setup](#bridge-network-setup)
+- [Looking Glass Setup](#looking-glass-setup)
+- [Windows Installation Steps](#windows-installation-steps)
+- [Virtual Display Drivers](#virtual-display-drivers)
+- [Adjusting Display Settings](#adjusting-display-settings)
+
+
+# 0: Find and Isolate GPU VFIO IDs
+```bash
+# I'm using NVIDIA, might be different for you. Copy the IDs responsibly.
+lspci -nnk | grep -i nvidia -A2
+```
+Output should be something like this:
+```
+01:00.0 VGA compatible controller [0300]: NVIDIA Corporation GA107M [GeForce RTX 3050 Mobile] [10de:25a2] (rev a1)
+01:00.1 Audio device [0403]: NVIDIA Corporation GA107 High Definition Audio Controller [10de:2291] (rev a1)
+```
+
 # GRUB Configuration
 ```bash
 # Edit GRUB configuration
@@ -5,7 +31,7 @@ sudo nano /etc/default/grub
 ```
 ```plaintext
 # Add the following line or modify if it already exists (VFIO IDs might be different):
-GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on iommu=pt loglevel=3 vfio-pci.ids=10de:25a2,10de:2291"
+GRUB_CMDLINE_LINUX_DEFAULT="intel_iommu=on iommu=pt [rest of already existing content] vfio-pci.ids=10de:25a2,10de:2291"
 ```
 ```bash
 # Update GRUB
@@ -37,6 +63,22 @@ sudo reboot
 
 ---
 
+# 1: Check if the GPU has been isolated.
+```bash
+lspci -k | grep -i nvidia -A2
+```
+Output should be something like this:
+```
+01:00.0 VGA compatible controller: NVIDIA Corporation GA107M [GeForce RTX 3050 Mobile] (rev a1)
+	Subsystem: Hewlett-Packard Company Device 8a4f
+	Kernel driver in use: vfio-pci
+	Kernel modules: nouveau, nvidia_drm, nvidia
+01:00.1 Audio device: NVIDIA Corporation GA107 High Definition Audio Controller (rev a1)
+	Subsystem: Hewlett-Packard Company Device 8a4f
+	Kernel driver in use: vfio-pci
+```
+Be sure you see the kernel driver "vfio-pci"
+
 # Install Required Packages
 ```bash
 # Install virtualization packages and enable libvirt
@@ -54,7 +96,7 @@ sudo cfdisk /dev/nvme0n1
 
 ---
 
-# Virt-Manager Configuration
+# Virt Manager Configuration
 1. **Create a New VM**
 2. **Select UEFI Firmware**
 3. **Add GTX PCI Devices**:
