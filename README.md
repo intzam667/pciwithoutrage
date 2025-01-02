@@ -34,23 +34,14 @@ softdep nvidia pre: vfio-pci<br>
 
 # Bridge
 - ip a
-- nmcli connection add type bridge-slave ifname enp0s20f0u4 (This might change. Type "ip a" and find the line starting with enpXs" master br0
+- nmcli connection add type bridge-slave ifname enp0s20f0u4 (This might change. Type "ip a" and find the line starting with enpXs) master br0
 - nmcli connection down "Connection name" (press tab if you need to)
 - nmcli connection up bridge-br0
 - nmcli connection up bridge-slave-enp30s0
 
 # Looking Glass
 - sudo virsh edit vmname: <br>
-
-  ...
-<devices>
-    ...
-  <shmem name='looking-glass'>
-    <model type='ivshmem-plain'/>
-    <size unit='M'>32</size>
-  </shmem>
-</devices>
-...
+- Refer to https://wiki.archlinux.org/title/PCI_passthrough_via_OVMF#Adding_IVSHMEM_Device_to_virtual_machines
   
 - sudo mkdir -p /etc/tempfiles.d
 - sudo nvim /etc/tempfiles.d/10-looking-glass.conf:<br>
