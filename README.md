@@ -147,7 +147,7 @@ sudo nvim /etc/tempfiles.d/10-looking-glass.conf
 ```
 ```plaintext
 # Add the following line:
-f	/dev/shm/looking-glass	0660	kurultaysokak	kvm
+f	/dev/shm/looking-glass	0660	user	kvm
 ```
 ```bash
 # Apply the configuration
