@@ -103,6 +103,7 @@ sudo cfdisk /dev/nvme0n1
 # Virt Manager Configuration
 1. **Create a New VM**
 1.1 **In the storage ".qcow" section, use custom storage path as /dev/nvme0n1pX or /dev/sdX**
+1.2 **In CPU configuration, do 1-8-1 topology to get native performance as threads are needed the most."
 3. **Select UEFI Firmware**
 4. **Add GTX PCI Devices**:
    - Video Controller
