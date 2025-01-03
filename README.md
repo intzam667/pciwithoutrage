@@ -124,12 +124,12 @@ sudo cfdisk /dev/nvme0n1
 ip a
 
 # Add a bridge slave (replace `enpXs` with your interface)
-nmcli connection add type bridge-slave ifname enp0s20f0u4 master br0
+nmcli connection add type bridge-slave ifname enpX master br0
 
 # Bring connections up and down
 nmcli connection down "<Connection Name>"
 nmcli connection up bridge-br0
-nmcli connection up bridge-slave-enp30s0
+nmcli connection up bridge-slave-enpX
 ```
 
 ---
