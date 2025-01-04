@@ -221,9 +221,9 @@ lscpu -e
 3. Note the CPU sets that both use the same CPU (e.g, 0-1 or 4-8)
 4. Edit isolstart.sh to include this lines: <br>
 ```plaintext
-systemctl set-property --runtime -- user.slice AllowedCPUs={change CPU set, like 0,1} <br>
-systemctl set-property --runtime -- system.slice AllowedCPUs={change CPU set, like 0,1} <br>
-systemctl set-property --runtime -- init.scope AllowedCPUs={change CPU set, like 0,1} <br>
+systemctl set-property --runtime -- user.slice AllowedCPUs={change CPU set, like 0,1}
+systemctl set-property --runtime -- system.slice AllowedCPUs={change CPU set, like 0,1} 
+systemctl set-property --runtime -- init.scope AllowedCPUs={change CPU set, like 0,1}
 ```
 Make sure to chmod<br>
 5. Edit revert.sh to include this lines: <br>
@@ -233,7 +233,7 @@ systemctl set-property --runtime -- system.slice AllowedCPUs={all of your CPUs, 
 systemctl set-property --runtime -- init.scope AllowedCPUs={all of your CPUs, like 0-11}
 ```
 Make sure to chmod<br>
-6. Create a qemu executable dispatcher under /etc/libvirt/hooks folder: <br>
+6. Create a dispatcher called "qemu" under /etc/libvirt/hooks folder: <br>
 ```plaintext
 #!/bin/bash
 DOMAIN_NAME="$1"
