@@ -257,7 +257,7 @@ fi
 ```
 Now when you open the VM, hooks should launch by the dispatcher script and allow you to tune CPUs to gain more performance inside VM. <br>
 After you exit the VM, dispatcher reverts the CPU isolation to default state. <br>
-Enjoy pure native Gaming experience in Windows, better than IN Windows. <br>
+Enjoy pure native gaming experience in Windows, better than ON Windows. <br>
 
 
 
