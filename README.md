@@ -16,6 +16,8 @@ A detailed guide for setting up PCI passthrough virtualization, focusing on isol
 - [Virtual Display Drivers](#virtual-display-drivers)
 - [Adjusting Display Settings](#adjusting-display-settings)
 
+## Additional
+- [CPU Pinning](#cpu-pinning)
 
 # 0: Find and Isolate GPU VFIO IDs
 ```bash
@@ -197,4 +199,68 @@ yay looking-glass (Brc7-1)
 1. Set the virtual display as **default**.
 2. Adjust resolution and refresh rate:
    - For resolutions larger than 1080p, change VM Looking Glass shmem unit to `64`.
-3. Enjoy a seamless Windows experience inside Linux!
+
+# CPU Pinning
+First, make a hooks folder inside /etc/libvirt <br>
+1. Recreate this tree: <br>
+└── qemu.d <br>
+    └── vm_name (not custom!) <br>
+        ├── prepare <br>
+        │   └── begin <br>
+        │       └── isolatecpu.sh <br>
+        └── release <br>
+            └── end <br>
+                └── revert.sh <br>
+		
+(As seen on SomeOrdinaryGamers' video :D) <br>
+
+2. Check your CPU topology.
+```bash
+lscpu -e
+```
+3. Note the CPU sets that both use the same CPU (e.g, 0-1 or 4-8)
+4. Edit isolstart.sh to include this lines: <br>
+```plaintext
+systemctl set-property --runtime -- user.slice AllowedCPUs={change CPU set, like 0,1} <br>
+systemctl set-property --runtime -- system.slice AllowedCPUs={change CPU set, like 0,1} <br>
+systemctl set-property --runtime -- init.scope AllowedCPUs={change CPU set, like 0,1} <br>
+```
+Make sure to chmod<br>
+5. Edit revert.sh to include this lines: <br>
+```plaintext
+systemctl set-property --runtime -- user.slice AllowedCPUs={all of your CPUs, like 0-11}
+systemctl set-property --runtime -- system.slice AllowedCPUs={all of your CPUs, like 0-11}
+systemctl set-property --runtime -- init.scope AllowedCPUs={all of your CPUs, like 0-11}
+```
+Make sure to chmod<br>
+6. Create a qemu executable dispatcher under /etc/libvirt/hooks folder: <br>
+```plaintext
+#!/bin/bash
+DOMAIN_NAME="$1"
+ACTION="$2"
+PHASE="$3"
+
+if [ "$DOMAIN_NAME" = "vm_name" ]; then
+  case "$ACTION" in
+  "prepare")
+    if [ "$PHASE" = "begin" ]; then
+      /etc/libvirt/hooks/qemu.d/win11/prepare/begin/isolatecpu.sh
+    fi
+    ;;
+  "release")
+    if [ "$PHASE" = "end" ]; then
+      /etc/libvirt/hooks/qemu.d/win11/release/end/revert.sh
+    fi
+    ;;
+  esac
+fi
+```
+Now when you open the VM, hooks should launch by the dispatcher script and allow you to tune CPUs to gain more performance inside VM. <br>
+After you exit the VM, dispatcher reverts the CPU isolation to default state. <br>
+Enjoy pure native Gaming experience in Windows, better than IN Windows. <br>
+
+
+
+
+
+
