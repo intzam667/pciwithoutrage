@@ -205,10 +205,10 @@ First, make a "hooks" folder inside /etc/libvirt <br>
 cd into hooks = cd /etc/libvirt/hooks <br>
 1. Recreate this tree: <br>
 ```bash
-mkdir qemu.d/vm_name/prepare <br>
-mkdir qemu.d/vm_name/release <br>
-mkdir qemu.d/vm_name/prepare/begin <br>
-mkdir qemu.d/vm_name/release/end <br>
+mkdir qemu.d/vm_name/prepare
+mkdir qemu.d/vm_name/release 
+mkdir qemu.d/vm_name/prepare/begin 
+mkdir qemu.d/vm_name/release/end
 ```
 
 Create an "isolatecpu.sh" script in prepare/begin <br>
