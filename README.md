@@ -203,16 +203,14 @@ yay looking-glass (Brc7-1)
 # CPU Pinning
 First, make a hooks folder inside /etc/libvirt <br>
 1. Recreate this tree: <br>
-└── qemu.d <br>
-    └── vm_name (not custom!) <br>
-        ├── prepare <br>
-        │   └── begin <br>
-        │       └── isolatecpu.sh <br>
-        └── release <br>
-            └── end <br>
-                └── revert.sh <br>
-		
-(As seen on SomeOrdinaryGamers' video :D) <br>
+mkdir qemu.d/vm_name/prepare <br>
+mkdir qemu.d/vm_name/release <br>
+mkdir prepare/begin <br>
+mkdir release/end <br>
+nano  isolatecpu.sh <br>
+
+Create an "isolatecpu.sh" script in prepare/begin <br>
+Create a "revert.sh" script in release/end <br>
 
 2. Check your CPU topology.
 ```bash
