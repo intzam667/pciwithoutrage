@@ -201,13 +201,15 @@ yay looking-glass (Brc7-1)
    - For resolutions larger than 1080p, change VM Looking Glass shmem unit to `64`.
 
 # CPU Pinning
-First, make a hooks folder inside /etc/libvirt <br>
+First, make a "hooks" folder inside /etc/libvirt <br>
+cd into hooks = cd /etc/libvirt/hooks <br>
 1. Recreate this tree: <br>
+```bash
 mkdir qemu.d/vm_name/prepare <br>
 mkdir qemu.d/vm_name/release <br>
-mkdir prepare/begin <br>
-mkdir release/end <br>
-nano  isolatecpu.sh <br>
+mkdir qemu.d/vm_name/prepare/begin <br>
+mkdir qemu.d/vm_name/release/end <br>
+```
 
 Create an "isolatecpu.sh" script in prepare/begin <br>
 Create a "revert.sh" script in release/end <br>
